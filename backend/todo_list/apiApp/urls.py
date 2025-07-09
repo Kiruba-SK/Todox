@@ -14,8 +14,6 @@ urlpatterns = [
     path('login/',v.login,name='login'),
     path('create_user/',v.create_user,name='create_user'),
     path('reset-password/', v.reset_password, name='reset-password'),
-    path('get_user_profile/',v.get_user_profile,name='get_user_profile'),
-    path('update_user_profile/',v.update_user_profile,name='update_user_profile'),
     
     path('create_todo/', v.create_todo, name='create_todo'),
     path('initial_call/', v.initial_call, name='initial_call'),

@@ -1,11 +1,12 @@
 from django.db import models
 
 class UserCred(models.Model):
-    username = models.CharField(max_length=20, blank=False, unique=True)
-    password = models.CharField(max_length=100, blank=False)
+    name = models.CharField(max_length = 20, blank = False)
+    email = models.EmailField(max_length = 100, unique=True, blank = False)
+    password = models.CharField(max_length = 100, blank = False)
 
     def __str__(self):
-        return self.username
+        return self.email
 
 class TodoData(models.Model):
     STATUS_CHOICES = [
