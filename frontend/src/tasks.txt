@@ -1,0 +1,8 @@
+* logo text
+* button to createnew todos
+* stats 4/10 todos completed
+* search bar
+* category filter(all, completed, im progress, archieved)
+* todo cards with 3 buttons (archieve, edit,delete)
+
+BASE_DIR = Path(__file__).resolve().parent.parent

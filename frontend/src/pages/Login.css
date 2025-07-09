@@ -1,0 +1,77 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(185, 203, 214);
+    height: 100vh;
+  }
+  
+  .login-card-container {
+    padding: 10px;
+    background-color: white;
+    border-radius: 20px;
+  }
+  
+  .login-heading {
+    color: rgb(91, 138, 168);
+    font-size: 32px;
+    font-weight: 500;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .login-inputs {
+    display: block;
+    padding: 10px;
+    margin: 15px;
+    font-size: 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(195, 189, 189);
+    outline-color: rgb(82, 137, 171);
+    color: rgb(58, 55, 55);
+  }
+  
+  .login-button {
+    padding: 10px;
+    margin: 25px 60px 20px;
+    display: block;
+    width: 60%;
+    font-size: 20px;
+    font-weight: 100;
+    border-radius: 55px;
+    background-color: rgb(91, 138, 168);
+    color: rgb(241, 238, 238);
+    border: 0;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .login-button:active {
+    transform: scale(0.95);
+  }
+  
+  .login-link {
+     text-decoration: none;
+  }
+  
+  .new-user {
+    text-align: center;
+    padding-bottom: 20px;
+  }
+  
+  /* .new-user:hover {
+    cursor: pointer;
+  }  */
+  
+  .or-style {
+    font-size: 13px;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  
+  /* .active-user {
+    padding-left: 95px;
+    margin-bottom: 25px;
+    
+  } */
