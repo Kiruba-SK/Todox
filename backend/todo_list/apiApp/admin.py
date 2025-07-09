@@ -3,8 +3,8 @@ from apiApp.models import UserCred, TodoData
 
 @admin.register(UserCred)
 class UserCredAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username')              
-    search_fields = ('username',)                   
+    list_display = ('id', 'name', 'email')              
+    search_fields = ('name', 'email')                   
     ordering = ('id',)                            
     list_per_page = 20                              
 
