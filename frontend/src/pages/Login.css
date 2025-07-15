@@ -1,77 +1,202 @@
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(185, 203, 214);
-    height: 100vh;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(185, 203, 214);
+  height: 100vh;
+  position: relative;
+}
+
+.login-card-container {
+  padding: 30px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 350px;
+}
+
+.login-heading {
+  color: rgb(91, 138, 168);
+  font-size: 32px;
+  font-weight: 500;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 10px;
+  text-align: center;
+}
+
+.login-inputs {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 15px 0;
+  font-size: 18px;
+  border-radius: 10px;
+  border: 1px solid rgb(195, 189, 189);
+  outline-color: rgb(82, 137, 171);
+  color: rgb(58, 55, 55);
+}
+
+.login-button {
+  padding: 10px;
+  width: 75%;
+  font-size: 18px;
+  border-radius: 50px;
+  background-color: rgb(91, 138, 168);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
+  margin-inline-start: 35px;
+}
+
+.login-button:hover {
+  background-color: rgb(75, 122, 152);
+}
+
+.login-button:active {
+  transform: scale(0.97);
+}
+
+.option-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.login-link {
+  text-decoration: underline;
+  color: rgb(91, 138, 168);
+  font-weight: normal;
+}
+
+.new-user {
+  text-align: center;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.or-style {
+  font-size: 14px;
+  text-align: center;
+  padding: 10px 0;
+  color: gray;
+}
+
+.forgot-password {
+  font-weight: normal;
+  color: rgb(91, 138, 168);
+  text-align: center;
+  cursor: pointer;
+  margin-top: 10px;
+  text-decoration: underline;
+}
+
+.reset-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.reset-box {
+  background-color: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 320px;
+}
+
+.reset-box h3 {
+  color: rgb(91, 138, 168);
+  font-size: 32px;
+  font-weight: 500;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 10px;
+  text-align: center;
+}
+
+.reset-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.reset-button {
+  padding: 10px;
+  width: 40%;
+  font-size: 18px;
+  border-radius: 50px;
+  background-color: rgb(91, 138, 168);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
+}
+
+.reset-button:hover {
+  background-color: rgb(75, 122, 152);
+}
+
+.reset-button:active {
+  transform: scale(0.97);
+}
+
+
+.cancel-button {
+  padding: 10px;
+  width: 40%;
+  font-size: 18px;
+  border-radius: 50px;
+  background-color: lightgray;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
+}
+
+@media (max-width: 480px) {
   .login-card-container {
-    padding: 10px;
-    background-color: white;
-    border-radius: 20px;
+    width: 100%;
+    padding: 20px;
   }
-  
+
   .login-heading {
-    color: rgb(91, 138, 168);
-    font-size: 32px;
-    font-weight: 500;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    padding: 10px;
-    text-align: center;
+    font-size: 26px;
+    padding: 5px;
   }
-  
+
   .login-inputs {
-    display: block;
-    padding: 10px;
-    margin: 15px;
-    font-size: 20px;
-    border-radius: 10px;
-    border: 1px solid rgb(195, 189, 189);
-    outline-color: rgb(82, 137, 171);
-    color: rgb(58, 55, 55);
+    font-size: 16px;
+    padding: 8px;
+    margin: 10px 0;
   }
-  
+
   .login-button {
-    padding: 10px;
-    margin: 25px 60px 20px;
-    display: block;
-    width: 60%;
-    font-size: 20px;
-    font-weight: 100;
-    border-radius: 55px;
-    background-color: rgb(91, 138, 168);
-    color: rgb(241, 238, 238);
-    border: 0;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    margin-inline-start: 0;
   }
-  
-  .login-button:active {
-    transform: scale(0.95);
+
+  .option-container {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
   }
-  
-  .login-link {
-     text-decoration: none;
-  }
-  
+
+  .forgot-password,
   .new-user {
-    text-align: center;
-    padding-bottom: 20px;
+    font-size: 14px;
   }
-  
-  /* .new-user:hover {
-    cursor: pointer;
-  }  */
-  
-  .or-style {
-    font-size: 13px;
-    text-align: center;
-    padding-bottom: 10px;
-  }
-  
-  /* .active-user {
-    padding-left: 95px;
-    margin-bottom: 25px;
-    
-  } */
+
+
+}
+
+

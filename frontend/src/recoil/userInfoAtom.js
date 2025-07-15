@@ -1,10 +1,8 @@
-// import { atom } from "recoil";
+import { atom } from "recoil";
 
-// const localUser = localStorage.getItem("userInfo");
+const userInfoAtom = atom({
+  key: "userInfoAtom", // unique ID for this atom
+  default: false,      // default value (e.g. logged out)
+});
 
-// const userInfoAtom = atom({
-//     key: 'userInfoAtom', 
-//     default: localUser === "true", 
-// });
-
-// export default userInfoAtom;
+export default userInfoAtom;

@@ -7,8 +7,8 @@ const Searchbar = () => {
   const [inputData, setInputData] = useRecoilState(searchTextAtom);
 
   useEffect(() => {
-    console.log(inputData)
-  },[inputData]);
+    console.log(inputData);
+  }, [inputData]);
 
   return (
     <div className="search-container">

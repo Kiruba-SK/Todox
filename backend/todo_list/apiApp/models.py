@@ -16,7 +16,8 @@ class TodoData(models.Model):
         ('completed', 'Completed'),
         ('archived', 'Archived'),
     ]
-
+    
+    user = models.ForeignKey(UserCred, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200, blank=False)
     desc = models.TextField(blank=False)
     status = models.CharField(max_length=12, choices=STATUS_CHOICES, blank=False)

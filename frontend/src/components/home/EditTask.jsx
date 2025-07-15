@@ -5,6 +5,8 @@ import editTaskAtom from "../../recoil/editTaskAtom";
 import filterDataAtom from "../../recoil/filterDataAtom";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import closeTaskAtom from "../../recoil/closeTaskAtom";
+import AxiosInstance from "../../components/AxiosInstance";
+import { toast } from "react-toastify";
 
 const EditTask = () => {
   const [todoApiData, setTodoApiData] = useRecoilState(todoDataAtom);
@@ -15,32 +17,38 @@ const EditTask = () => {
   const titleRef = useRef(null);
   const descRef = useRef(null);
 
-  const editTaskHandler = (e) => {
+  const editTaskHandler = async (e) => {
     e.preventDefault();
+
+    const email = localStorage.getItem("email");
+    if (!email) {
+      toast.error("User not logged in!");
+      return;
+    }
 
     const updatedData = {
       id: selectedEditTask?.id,
       title: titleRef?.current?.value,
       desc: descRef?.current?.value,
+      email: email,
     };
+    try {
+      const response = await AxiosInstance.put("/update_task/", updatedData);
 
-    fetch("http://127.0.0.1:8000/update_task/", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
+      if (response.status === 201 || response.status === 200) {
         setSelectedEditTask(false);
-        setTodoApiData(data?.todo_data);
-        setFilterData(data?.stats);
-      })
-      .catch((error) => {
-        console.error("Update Error:", error);
-        alert("Failed to update task. Please try again.");
-      });
+        setTodoApiData(response.data?.todo_data);
+        setFilterData(response.data?.stats);
+        toast.success("Task updated successfully!");
+      } else {
+        toast.error("Failed to edit task. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating task:", error);
+      toast.info(
+        error.response?.data?.error || "Something went wrong. Please try again."
+      );
+    }
   };
 
   return (
@@ -84,108 +92,3 @@ const EditTask = () => {
 };
 
 export default EditTask;
-
-
-// import React, { useRef, useEffect, useState } from "react";
-// import { useRecoilState } from "recoil";
-// import todoDataAtom from "../../recoil/todoDataAtom";
-// import editTaskAtom from "../../recoil/editTaskAtom";
-// import filterDataAtom from "../../recoil/filterDataAtom";
-// import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
-// import closeTaskAtom from "../../recoil/closeTaskAtom";
-
-// const EditTask = () => {
-//   // Global variable
-//   // const [addTask, setAddTask] = useRecoilState(addTaskAtom);
-//   // eslint-disable-next-line no-unused-vars
-//   const [todoApiData, setTodoApiData] = useRecoilState(todoDataAtom);
-//   const [selectedEditTask, setSelectedEditTask] = useRecoilState(editTaskAtom);
-//   // eslint-disable-next-line no-unused-vars
-//   const [filterData, setFilterData] = useRecoilState(filterDataAtom);
-//   const [closeTask, setCloseTask] = useRecoilState(closeTaskAtom);
-//   const [csrfToken, setCsrfToken] = useState("");
-
-//   // Fetch CSRF Token from Django when component loads
-//   useEffect(() => {
-//     fetch("http://127.0.0.1:8000/csrf/", {
-//       method: "GET",
-//       credentials: "include", // Ensures cookies are sent
-//     })
-//       .then((response) => response.json())
-//       .then((data) => setCsrfToken(data.csrfToken)) // Save token to state
-//       .catch((error) => console.error("CSRF Token Fetch Error:", error));
-//   }, []);
-
-//   // local variable
-//   const titleRef = useRef(null);
-//   const descRef = useRef(null);
-
-//   const editTaskHandler = (e) => {
-//     e.preventDefault();
-
-//     const data = {
-//       id: selectedEditTask?.id,
-//       title: titleRef?.current?.value,
-//       desc: descRef?.current?.value,
-//     };
-
-//     fetch("http://127.0.0.1:8000/update_task/", {
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json",
-//         "X-CSRFToken": csrfToken,
-//       },
-//       credentials: "include",
-//       body: JSON.stringify(data),
-//     })
-//       .then((response) => response.json())
-//       .then((data) => {
-//         console.log(data);
-//         setSelectedEditTask(false);
-//         setTodoApiData(data?.todo_data);
-//         setFilterData(data?.stats);
-//       })
-//       .catch((error) => {
-//         console.log("Error", error);
-//       });
-//   };
-
-//   return (
-//     <>
-//       {!closeTask && (
-//         <div className="add-task-container">
-//           <div className="add-task-contents">
-//             <div className="new-task-container">
-//               <h1>New Task</h1>
-//               <ClearRoundedIcon
-//                 onClick={() => {
-//                   setSelectedEditTask(false);
-//                   setCloseTask(false);
-//                 }}
-//               />
-//             </div>
-
-//             <form onSubmit={editTaskHandler} className="add-task-form">
-//               <input
-//                 ref={titleRef}
-//                 type="text"
-//                 placeholder="Title"
-//                 defaultValue={selectedEditTask?.title}
-//               />
-//               <textarea
-//                 ref={descRef}
-//                 cols="30"
-//                 rows="10"
-//                 placeholder="Description"
-//                 defaultValue={selectedEditTask?.desc}
-//               ></textarea>
-//               <button>Add</button>
-//             </form>
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// export default EditTask;

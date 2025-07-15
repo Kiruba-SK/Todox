@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { useNavigate } from "react-router-dom";
 import addTaskAtom from "../../recoil/addTaskAtom";
 import { useRecoilState } from "recoil";
+import userInfoAtom from "../../recoil/userInfoAtom";
 
 const Header = (props) => {
   const [addTask, setAddTask] = useRecoilState(addTaskAtom);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,9 +37,16 @@ const Header = (props) => {
             </span>
             New
           </button>
-          
-          <button className="profile-btn" onClick={() => navigate("/profile")}>
-            <PersonRoundedIcon fontSize="large" />
+
+          <button
+            className="new-task-btn-2"
+            onClick={() => {
+              localStorage.clear();
+              setUserInfo(false);
+              navigate("/");
+            }}
+          >
+            <LogoutRoundedIcon fontSize="large" />
           </button>
         </div>
       </div>

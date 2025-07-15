@@ -2,81 +2,87 @@ import React, { useRef } from "react";
 import { useRecoilState } from "recoil";
 import newUserAtom from "../../recoil/newUserAtom";
 import { useNavigate } from "react-router-dom";
+import AxiosInstance from "../../components/AxiosInstance";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import { toast } from "react-toastify";
 
 const NewuserCard = () => {
   const [newUserTask, setNewUserTask] = useRecoilState(newUserAtom);
-  const usernameRef = useRef(null);
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const navigate = useNavigate();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const userCredentials = {
-      username: usernameRef?.current?.value,
+      name: nameRef?.current?.value,
+      email: emailRef?.current?.value,
       password: passwordRef?.current?.value,
     };
 
-    fetch("http://127.0.0.1:8000/create_user/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userCredentials),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    try {
+      const response = await AxiosInstance.post(
+        "/create_user/",
+        userCredentials
+      );
 
-        if (data?.message === "User created successfully") {
-          localStorage.setItem("userStatus", true);
-          setNewUserTask(true);
-          navigate("/"); // ✅ Navigate only after success
-        } else {
-          alert(data?.error || "Something went wrong");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Something went wrong");
-      });
+      if (response.status === 201 ) {
+        localStorage.setItem("userStatus", true);
+        localStorage.setItem("email", userCredentials.email);
+        toast.success(response.data.message || "User created successfully!");
+        setNewUserTask(true);
+        navigate("/home");
+      } else {
+        toast.error(response.data.error || "Something went wrong");
+      }
+    } catch (error) {
+      console.error("Signup Error:", error);
+      toast.info(error.response?.data?.error || "Something went wrong");
+    }
+  };
+
+  const onClose = () => {
+    navigate("/");
   };
 
   return (
-    <div className="save-card-container">
-      <div>
-        <h1 className="save-heading">New User</h1>
+    <div className="save-container">
+      <div className="save-card-container">
+        <h1 className="save-heading">Create Account</h1>
+        <ClearRoundedIcon
+          className="close-button"
+          onClick={onClose}
+          fontSize="small"
+        />
         <form onSubmit={onSubmit}>
-          <table>
-            <tbody>
-              <tr>
-                <td className="user-inputs">Name :</td>
-                <td>
-                  <input
-                    className="save-inputs"
-                    type="text"
-                    placeholder="Username"
-                    ref={usernameRef}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="user-inputs">Password :</td>
-                <td>
-                  <input
-                    className="save-inputs"
-                    type="password"
-                    placeholder="Password"
-                    ref={passwordRef}
-                    required
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <input
+            className="save-inputs"
+            type="text"
+            placeholder="Name"
+            ref={nameRef}
+            required
+          />
+
+          <input
+            className="save-inputs"
+            type="email"
+            placeholder="Email"
+            ref={emailRef}
+            required
+          />
+
+          <input
+            className="save-inputs"
+            type="password"
+            placeholder="Password"
+            ref={passwordRef}
+            required
+          />
+
           <button className="save-button" type="submit">
-            Save
+            Sign Up
           </button>
         </form>
       </div>
@@ -85,112 +91,3 @@ const NewuserCard = () => {
 };
 
 export default NewuserCard;
-
-// import React, { useRef, useEffect, useState } from "react";
-// import { useRecoilState } from "recoil";
-// import newUserAtom from "../../recoil/newUserAtom";
-// import { useNavigate } from "react-router-dom";
-
-// const NewuserCard = () => {
-//   // eslint-disable-next-line no-unused-vars
-//   const [newUserTask, setNewUserTask] = useRecoilState(newUserAtom);
-//   const [csrfToken, setCsrfToken] = useState("");
-
-//   const usernameRef = useRef(null);
-//   const passwordRef = useRef(null);
-
-//   // Fetch CSRF Token from Django when component loads
-//   useEffect(() => {
-//     fetch("http://127.0.0.1:8000/csrf/", {
-//       method: "GET",
-//       credentials: "include", // Ensures cookies are sent
-//     })
-//       .then((response) => response.json())
-//       .then((data) => setCsrfToken(data.csrfToken)) // Save token to state
-//       .catch((error) => console.error("CSRF Token Fetch Error:", error));
-//   }, []);
-
-//   // functions
-//   const navigate = useNavigate();
-
-//   const onSubmit = (e) => {
-//     e.preventDefault();
-
-//     const userCredentials = {
-//       username: usernameRef?.current?.value,
-//       password: passwordRef?.current?.value,
-//     };
-
-//     fetch("http://127.0.0.1:8000/create_user/", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         "X-CSRFToken": csrfToken,
-//       },
-//       credentials: "include",
-//       body: JSON.stringify(userCredentials),
-//     })
-//       .then((response) => response.json())
-//       .then((data) => {
-//         console.log(data);
-//         if (data?.message === "User created") {
-//           localStorage.setItem("userStatus", true);
-//           setNewUserTask(true);
-//         } else {
-//           localStorage.setItem("userStatus", false);
-//         }
-//       })
-//       .catch((error) => {
-//         console.log("Error", error);
-//       });
-//   };
-
-//   return (
-//     <div>
-//       <div className="save-card-container">
-//         <div>
-//           <h1 className="save-heading">New User</h1>
-//           <form onSubmit={onSubmit}>
-//             <table>
-//               <tbody>
-//                 <tr>
-//                   <td className="user-inputs">Name :</td>
-//                   <td>
-//                     <input
-//                       className="save-inputs"
-//                       type="text"
-//                       placeholder="Username"
-//                       ref={usernameRef}
-//                     />
-//                   </td>
-//                 </tr>
-//                 <tr>
-//                   <td className="user-inputs">Password :</td>
-//                   <td>
-//                     <input
-//                       className="save-inputs"
-//                       type="password"
-//                       placeholder="Password"
-//                       ref={passwordRef}
-//                     />
-//                   </td>
-//                 </tr>
-//               </tbody>
-//             </table>
-//             <button
-//               className="save-button"
-//               type="submit"
-//               onClick={() => {
-//                 navigate("/");
-//               }}
-//             >
-//               Save
-//             </button>
-//           </form>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default NewuserCard;
